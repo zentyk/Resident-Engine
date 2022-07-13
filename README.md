@@ -1,5 +1,5 @@
-# Resident-Engine
-Resident Engine made with Typescript and WebGL
+# Resident Engine
+Resident Evil Framework made with Babylon.js and Typescript
 
 ### Stack
 * Engine : Babylon.js 5
