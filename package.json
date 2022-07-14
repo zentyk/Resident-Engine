@@ -11,6 +11,8 @@
     "docs": "jsdoc -c ./jsdoc.json"
   },
   "dependencies": {
+    "@sentry/node": "^7.6.0",
+    "@sentry/tracing": "^7.6.0",
     "jsdoc": "3.6.10",
     "vue": "3.2.37",
     "vue-i18n": "9.1.10"

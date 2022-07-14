@@ -5,6 +5,7 @@ import {
     Vector3, MeshBuilder, PointLight, DirectionalLight, SpotLight, HemisphericLight, Color3, StandardMaterial, Texture
 } from "@babylonjs/core";
 
+
 /**
  * Class to create a BabylonJS application.
  */
