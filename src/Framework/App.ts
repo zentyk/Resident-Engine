@@ -1,10 +1,6 @@
-import {
-    Engine,
-    Scene,
-    FreeCamera,
-    Vector3, MeshBuilder, PointLight, DirectionalLight, SpotLight, HemisphericLight, Color3, StandardMaterial, Texture
-} from "@babylonjs/core";
-
+import * as BABYLON from "@babylonjs/core";
+import "@babylonjs/loaders";
+import InputManager from "./Managers/InputManager";
 
 /**
  * Class to create a BabylonJS application.
@@ -18,7 +14,7 @@ export default class App {
     constructor(canvas : HTMLCanvasElement) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        this.engine = new Engine(canvas, true);
+        this.engine = new BABYLON.Engine(canvas, true);
         this.scene = this.CreateScene(this.engine, canvas);
     }
 
@@ -33,43 +29,21 @@ export default class App {
     }
 
     CreateScene(engine: Engine, canvas : HTMLCanvasElement): Scene {
-        let scene = new Scene(engine);
-        let camera = new FreeCamera(
-            "camera1",
-            new Vector3(0, 1, -5),
-            scene
-        );
+        let scene = new BABYLON.Scene(engine);
+        let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0,2,-10), scene);
+        let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 10, height: 10}, scene);
+        let light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(0, 5, -5), scene);
 
-        camera.attachControl(canvas,true);
+        light.diffuse = new BABYLON.Color3(0.5, 0.5, 0.5);
 
-        let ground = MeshBuilder.CreateGround("ground", {width: 10, height: 10}, scene);
-
-        let light = new PointLight("pointLight", new Vector3(-2, 2, -2), scene);
-
-        let box1 = MeshBuilder.CreateBox("box", {size: 0.75}, scene);
-        let box2 = MeshBuilder.CreateBox("box", {size: 1}, scene);
-        let box3 = MeshBuilder.CreateBox("box", {size: 0.5}, scene);
-
-        box1.position = new Vector3(0,1,1);
-        box2.position = new Vector3(0,1,-1);
-        box3.position = new Vector3(1,1,0);
-
-        let redMat = new StandardMaterial("redMat", scene);
-
-        let transparentMat = new StandardMaterial("transparentMat", scene);
-        let emissiveMat = new StandardMaterial("emissiveMat", scene);
-        let text = new Texture("./download.jpg", scene);
-
-        redMat.diffuseColor = new Color3(1, 0, 0);
-        redMat.diffuseTexture = text;
-
-        transparentMat.alpha = 0.1;
-        emissiveMat.emissiveColor = new Color3(0,1,1);
-
-        box1.material = redMat;
-        box2.material = transparentMat;
-        box3.material = emissiveMat;
+        this.LoadPlayer(scene).then(player => {
+            let inputManager = new InputManager(this.engine, scene, player, 0.1);
+        });
 
         return scene;
+    }
+
+    async LoadPlayer(scene) {
+        return await BABYLON.SceneLoader.ImportMeshAsync("", '/assets/', 'jill.glb',scene);
     }
 }
