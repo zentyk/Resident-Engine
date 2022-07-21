@@ -1,7 +1,7 @@
 import * as BABYLON from "@babylonjs/core";
 
 export default class InputManager {
-    private readonly dsm: DeviceSourceManager;
+    private readonly dsm: BABYLON.DeviceSourceManager;
     private readonly velocity: number;
     private player: BABYLON.Mesh;
 
@@ -25,19 +25,23 @@ export default class InputManager {
 
         scene.registerBeforeRender(() => {
             if (this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard)) {
+                // @ts-ignore
                 if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(37) == 1) {
                     this.turnLeft();
                 }
 
-                else if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(39) == 1) {
+                // @ts-ignore
+                if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(39) == 1) {
                     this.turnRight();
                 }
 
-                else if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(38) == 1) {
+                // @ts-ignore
+                if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(38) == 1) {
                     this.goForward();
                 }
 
-                else if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(40) == 1) {
+                // @ts-ignore
+                if (this.dsm!==null && this.dsm.getDeviceSource(BABYLON.DeviceType.Keyboard).getInput(40) == 1) {
                     this.goBack();
                 }
             }

@@ -6,8 +6,8 @@ import InputManager from "./Managers/InputManager";
  * Class to create a BabylonJS application.
  */
 export default class App {
-    private readonly engine: Engine;
-    private scene: Scene;
+    private readonly engine: BABYLON.Engine;
+    private scene: BABYLON.Scene;
     /**
      * @param {{canvas : HTMLCanvasElement }} canvas is a HTMLCanvasElement
      * */
@@ -28,7 +28,7 @@ export default class App {
         });
     }
 
-    CreateScene(engine: Engine, canvas : HTMLCanvasElement): Scene {
+    CreateScene(engine: BABYLON.Engine, canvas : HTMLCanvasElement): BABYLON.Scene {
         let scene = new BABYLON.Scene(engine);
         let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0,2,-10), scene);
         let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 10, height: 10}, scene);
@@ -43,7 +43,7 @@ export default class App {
         return scene;
     }
 
-    async LoadPlayer(scene) {
+    async LoadPlayer(scene : BABYLON.Scene) : Promise<BABYLON.ISceneLoaderAsyncResult> {
         return await BABYLON.SceneLoader.ImportMeshAsync("", '/assets/', 'jill.glb',scene);
     }
 }
