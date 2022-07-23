@@ -1,5 +1,6 @@
 import * as BABYLON from "@babylonjs/core";
 import "@babylonjs/loaders";
+import "@babylonjs/inspector";
 import InputManager from "./Managers/InputManager";
 
 /**
@@ -30,14 +31,23 @@ export default class App {
 
     CreateScene(engine: BABYLON.Engine, canvas : HTMLCanvasElement): BABYLON.Scene {
         let scene = new BABYLON.Scene(engine);
-        let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0,2,-10), scene);
-        let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 10, height: 10}, scene);
-        let light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(0, 5, -5), scene);
+        //scene.debugLayer.show();
+        let camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(5,5,-5), scene);
+        scene.ambientColor = new BABYLON.Color3(1, 0.5, 0.5);
+        scene.clearColor = new BABYLON.Color4(1, 1, 1, 1);
+        camera.rotation.z = 0;
+        camera.rotation.x = 0.3;
+        let light = new BABYLON.PointLight("pointLight", new BABYLON.Vector3(5, 7, 10), scene);
+        let background = new BABYLON.Layer("background", "assets/test_background.png", scene, true);
 
-        light.diffuse = new BABYLON.Color3(0.5, 0.5, 0.5);
+        light.diffuse = new BABYLON.Color3(1, 1, 1);
+        light.specular = new BABYLON.Color3(1, 1, 1);
+        //light.groundColor = new BABYLON.Color3(0, 0, 0);
+        light.intensity = 5;
 
         this.LoadPlayer(scene).then(player => {
             let inputManager = new InputManager(this.engine, scene, player, 0.1);
+            player.meshes[0].position.z = 5;
         });
 
         return scene;
